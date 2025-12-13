@@ -168,86 +168,145 @@ const Index = () => {
                   <stop offset="0%" style={{ stopColor: '#0F5132', stopOpacity: 1 }} />
                   <stop offset="100%" style={{ stopColor: '#1B7A4C', stopOpacity: 1 }} />
                 </linearGradient>
+                <filter id="shadow">
+                  <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.3"/>
+                </filter>
               </defs>
 
               <polygon
-                points="200,30 100,150 120,150 70,230 90,230 50,310 350,310 310,230 330,230 280,150 300,150"
+                points="200,50 120,180 140,180 90,270 110,270 40,380 360,380 290,270 310,270 260,180 280,180"
                 fill="url(#treeGradient)"
                 stroke="#0A3D23"
-                strokeWidth="2"
+                strokeWidth="3"
+                filter="url(#shadow)"
               />
 
-              <rect x="175" y="310" width="50" height="60" fill="#654321" stroke="#4A2F15" strokeWidth="2" rx="4" />
+              <rect x="170" y="380" width="60" height="80" fill="#654321" stroke="#4A2F15" strokeWidth="3" rx="5" />
 
-              <polygon points="200,10 205,30 195,30" fill="#FFD700" />
-            </svg>
+              <polygon points="200,20 210,50 190,50" fill="#FFD700" stroke="#DAA520" strokeWidth="2" />
 
-            <div className="absolute inset-0">
               {[
-                { x: 34, y: 42, row: 1 },
-                { x: 50, y: 42, row: 1 },
-                { x: 66, y: 42, row: 1 },
+                { x: 140, y: 100, color: '#FFD700' },
+                { x: 180, y: 105, color: '#DC143C' },
+                { x: 220, y: 105, color: '#4169E1' },
+                { x: 260, y: 100, color: '#FFD700' },
 
-                { x: 28, y: 52, row: 2 },
-                { x: 42, y: 52, row: 2 },
-                { x: 58, y: 52, row: 2 },
-                { x: 72, y: 52, row: 2 },
+                { x: 130, y: 140, color: '#DC143C' },
+                { x: 165, y: 145, color: '#4169E1' },
+                { x: 200, y: 148, color: '#FFD700' },
+                { x: 235, y: 145, color: '#DC143C' },
+                { x: 270, y: 140, color: '#4169E1' },
 
-                { x: 22, y: 62, row: 3 },
-                { x: 34, y: 62, row: 3 },
-                { x: 50, y: 62, row: 3 },
-                { x: 66, y: 62, row: 3 },
-                { x: 78, y: 62, row: 3 },
+                { x: 115, y: 190, color: '#4169E1' },
+                { x: 155, y: 195, color: '#FFD700' },
+                { x: 200, y: 200, color: '#DC143C' },
+                { x: 245, y: 195, color: '#4169E1' },
+                { x: 285, y: 190, color: '#FFD700' },
 
-                { x: 16, y: 72, row: 4 },
-                { x: 28, y: 72, row: 4 },
-                { x: 42, y: 72, row: 4 },
-                { x: 58, y: 72, row: 4 },
-                { x: 72, y: 72, row: 4 },
-                { x: 84, y: 72, row: 4 },
+                { x: 100, y: 230, color: '#DC143C' },
+                { x: 140, y: 240, color: '#4169E1' },
+                { x: 180, y: 245, color: '#FFD700' },
+                { x: 220, y: 245, color: '#DC143C' },
+                { x: 260, y: 240, color: '#4169E1' },
+                { x: 300, y: 230, color: '#FFD700' },
 
-                { x: 12, y: 82, row: 5 },
-                { x: 24, y: 82, row: 5 },
-                { x: 38, y: 82, row: 5 },
-                { x: 52, y: 82, row: 5 },
-                { x: 66, y: 82, row: 5 },
-                { x: 80, y: 82, row: 5 },
-              ].map((pos, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleOrnamentClick(index)}
-                  className="absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 hover:scale-125 focus:outline-none focus:ring-2 focus:ring-secondary rounded-full"
-                  style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-                >
-                  <div className="relative group">
-                    <div
-                      className={`w-8 h-8 rounded-full shadow-lg border-2 transition-all duration-300 ${
-                        tracks[index]
-                          ? 'bg-accent border-accent/30 ornament-sparkle'
-                          : 'bg-white/60 border-muted hover:bg-white/80'
-                      }`}
-                    >
-                      {tracks[index] ? (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <Icon name="Music" size={16} className="text-white" />
-                        </div>
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <Icon name="Plus" size={14} className="text-muted-foreground opacity-60" />
-                        </div>
-                      )}
-                    </div>
-                    {tracks[index] && (
-                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                        <div className="bg-primary text-primary-foreground text-xs px-3 py-1.5 rounded-lg shadow-lg">
-                          {tracks[index]?.name}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </button>
+                { x: 80, y: 290, color: '#FFD700' },
+                { x: 125, y: 300, color: '#DC143C' },
+                { x: 165, y: 310, color: '#4169E1' },
+                { x: 200, y: 315, color: '#FFD700' },
+                { x: 235, y: 310, color: '#DC143C' },
+                { x: 275, y: 300, color: '#4169E1' },
+                { x: 320, y: 290, color: '#DC143C' },
+              ].map((light, i) => (
+                <circle
+                  key={`light-${i}`}
+                  cx={light.x}
+                  cy={light.y}
+                  r="3"
+                  fill={light.color}
+                  className="ornament-sparkle"
+                  opacity="0.8"
+                />
               ))}
-            </div>
+
+              {[
+                { x: 155, y: 115, rx: 200 },
+                { x: 245, y: 115, rx: 160 },
+                
+                { x: 147, y: 160, rx: 240 },
+                { x: 217, y: 165, rx: 200 },
+                { x: 253, y: 160, rx: 180 },
+
+                { x: 127, y: 210, rx: 280 },
+                { x: 177, y: 215, rx: 240 },
+                { x: 223, y: 215, rx: 200 },
+                { x: 273, y: 210, rx: 160 },
+
+                { x: 110, y: 255, rx: 320 },
+                { x: 158, y: 265, rx: 280 },
+                { x: 200, y: 270, rx: 240 },
+                { x: 242, y: 265, rx: 200 },
+                { x: 290, y: 255, rx: 140 },
+
+                { x: 97, y: 320, rx: 360 },
+                { x: 143, y: 330, rx: 320 },
+                { x: 182, y: 340, rx: 280 },
+                { x: 218, y: 340, rx: 240 },
+                { x: 257, y: 330, rx: 200 },
+                { x: 303, y: 320, rx: 140 },
+              ].map((hook, index) => (
+                <g key={index}>
+                  <line
+                    x1={hook.x}
+                    y1={hook.y - 8}
+                    x2={hook.x}
+                    y2={hook.y}
+                    stroke="#8B4513"
+                    strokeWidth="1.5"
+                  />
+                  
+                  {tracks[index] ? (
+                    <g className="ornament-swing cursor-pointer" onClick={() => handleOrnamentClick(index)}>
+                      <circle
+                        cx={hook.x}
+                        cy={hook.y + 10}
+                        r="12"
+                        fill="#DC143C"
+                        stroke="#8B0000"
+                        strokeWidth="2"
+                        filter="url(#shadow)"
+                        className="transition-all duration-300 hover:r-14"
+                      />
+                      <circle
+                        cx={hook.x}
+                        cy={hook.y + 6}
+                        r="4"
+                        fill="#FF6B6B"
+                        opacity="0.6"
+                      />
+                      <g transform={`translate(${hook.x - 6}, ${hook.y + 6})`}>
+                        <path d="M 4 4 L 4 10 M 8 2 L 8 10 L 6 12 L 4 10" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+                      </g>
+                    </g>
+                  ) : (
+                    <g className="cursor-pointer opacity-40 hover:opacity-70 transition-opacity" onClick={() => handleOrnamentClick(index)}>
+                      <circle
+                        cx={hook.x}
+                        cy={hook.y + 10}
+                        r="12"
+                        fill="#F0F0F0"
+                        stroke="#D0D0D0"
+                        strokeWidth="2"
+                        strokeDasharray="2,2"
+                      />
+                      <g transform={`translate(${hook.x - 5}, ${hook.y + 5})`}>
+                        <path d="M 5 0 L 5 10 M 0 5 L 10 5" stroke="#999" strokeWidth="2" strokeLinecap="round"/>
+                      </g>
+                    </g>
+                  )}
+                </g>
+              ))}
+            </svg>
           </div>
         </div>
       </div>
