@@ -14,6 +14,14 @@ interface Track {
   reason: string;
 }
 
+interface Snowflake {
+  id: number;
+  left: number;
+  animationDuration: number;
+  size: number;
+  delay: number;
+}
+
 const Index = () => {
   const [tracks, setTracks] = useState<(Track | null)[]>(Array(24).fill(null));
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -22,7 +30,19 @@ const Index = () => {
   const [trackName, setTrackName] = useState('');
   const [trackReason, setTrackReason] = useState('');
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [snowflakes, setSnowflakes] = useState<Snowflake[]>([]);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const flakes: Snowflake[] = Array.from({ length: 50 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      animationDuration: 10 + Math.random() * 20,
+      size: 0.5 + Math.random() * 1,
+      delay: Math.random() * 10,
+    }));
+    setSnowflakes(flakes);
+  }, []);
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -63,6 +83,14 @@ const Index = () => {
       return;
     }
 
+    if (trackReason.length > 300) {
+      toast({
+        title: 'История не должна превышать 300 символов',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     const emptyIndex = tracks.findIndex(t => t === null);
     if (emptyIndex === -1) {
       toast({
@@ -84,8 +112,8 @@ const Index = () => {
     setTracks(newTracks);
 
     toast({
-      title: '🎉 Трек добавлен!',
-      description: `"${trackName}" теперь украшает ёлку`,
+      title: '✨ Игрушка повешена на ёлку!',
+      description: `"${trackName}" теперь украшает нашу ёлку`,
     });
 
     setTrackName('');
@@ -103,270 +131,363 @@ const Index = () => {
   };
 
   const filledCount = tracks.filter(t => t !== null).length;
+  const isTreeComplete = filledCount === 24;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-green-100">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <header className="text-center mb-8 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold text-primary mb-4 flex items-center justify-center gap-3">
-            <Icon name="Music" size={48} className="text-accent" />
-            Музыкальная Ёлка
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            24 трека от сердца к Новому Году
-          </p>
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#4A0E0E] via-[#6B1A1A] to-[#8B0000]">
+      {snowflakes.map((flake) => (
+        <div
+          key={flake.id}
+          className="snowflake"
+          style={{
+            left: `${flake.left}%`,
+            animationDuration: `${flake.animationDuration}s`,
+            animationDelay: `${flake.delay}s`,
+            fontSize: `${flake.size}em`,
+          }}
+        >
+          ❄
+        </div>
+      ))}
+
+      <div className="container mx-auto px-4 py-8 max-w-7xl relative z-10">
+        <header className="text-center mb-6 animate-fade-in">
+          <div className="mb-4">
+            <h1 className="text-6xl md:text-7xl font-bold text-primary mb-2 glow-effect" style={{ textShadow: '0 0 20px rgba(255, 215, 0, 0.5)' }}>
+              VIGRY MUSIC
+            </h1>
+            <p className="text-xl md:text-2xl text-primary/80 font-light tracking-wide">
+              Виртуальная Новогодняя Ёлка
+            </p>
+          </div>
         </header>
 
-        <Card className="mb-8 bg-white/80 backdrop-blur-sm border-2 border-secondary shadow-xl animate-scale-in">
-          <CardContent className="pt-6">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-primary mb-4 flex items-center justify-center gap-2">
-                <Icon name="Clock" size={28} className="text-accent" />
-                До создания плейлиста осталось
-              </h2>
-              <div className="grid grid-cols-4 gap-4 max-w-2xl mx-auto">
-                {[
-                  { value: timeLeft.days, label: 'дней' },
-                  { value: timeLeft.hours, label: 'часов' },
-                  { value: timeLeft.minutes, label: 'минут' },
-                  { value: timeLeft.seconds, label: 'секунд' },
-                ].map((item, i) => (
-                  <div key={i} className="bg-primary text-primary-foreground rounded-lg p-4 shadow-lg">
-                    <div className="text-4xl md:text-5xl font-bold font-mono">{item.value}</div>
-                    <div className="text-sm md:text-base mt-1 opacity-90">{item.label}</div>
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="md:col-span-1">
+            <Card className="bg-card/80 backdrop-blur-md border-2 border-primary/30 shadow-2xl">
+              <CardContent className="pt-6">
+                <div className="text-center">
+                  <Icon name="Clock" size={32} className="text-primary mx-auto mb-3 glow-effect" />
+                  <h2 className="text-lg font-bold text-foreground mb-3">
+                    До формирования праздничного плейлиста
+                  </h2>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { value: timeLeft.days, label: 'дней' },
+                      { value: timeLeft.hours, label: 'часов' },
+                      { value: timeLeft.minutes, label: 'минут' },
+                    ].map((item, i) => (
+                      <div key={i} className="bg-primary/90 text-primary-foreground rounded-lg p-3 shadow-lg">
+                        <div className="text-3xl font-bold font-mono">{item.value}</div>
+                        <div className="text-xs mt-1 opacity-90">{item.label}</div>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="mt-6 bg-card/80 backdrop-blur-md border-2 border-primary/30 shadow-2xl">
+              <CardContent className="pt-6">
+                <div className="text-center">
+                  <div className="text-5xl font-bold text-primary mb-2">{filledCount}</div>
+                  <div className="text-sm text-muted-foreground">из 24 игрушек</div>
+                  <div className="w-full bg-muted rounded-full h-3 mt-4">
+                    <div
+                      className="bg-primary h-3 rounded-full transition-all duration-500 glow-effect"
+                      style={{ width: `${(filledCount / 24) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {isTreeComplete && (
+              <Card className="mt-6 bg-primary/20 backdrop-blur-md border-2 border-primary shadow-2xl animate-scale-in">
+                <CardContent className="pt-6 text-center">
+                  <Icon name="Star" size={48} className="text-primary mx-auto mb-3 glow-effect" />
+                  <h3 className="text-xl font-bold text-primary mb-2">Ёлка украшена!</h3>
+                  <p className="text-sm text-foreground/80">Спасибо за участие! ✨</p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+
+          <div className="md:col-span-2">
+            <div className="relative">
+              <div
+                className="rounded-3xl overflow-hidden shadow-2xl border-4 border-primary/30"
+                style={{
+                  background: `linear-gradient(rgba(74, 14, 14, 0.3), rgba(74, 14, 14, 0.5)), url('https://cdn.poehali.dev/projects/7f96856d-4495-46ee-86d2-045507fa8fd9/files/7492a20c-a559-46d0-ad5d-d3193f1821ac.jpg')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  minHeight: '700px',
+                }}
+              >
+                <div className="absolute inset-0">
+                  <svg viewBox="0 0 400 700" className="w-full h-full">
+                    {[
+                      { x: 155, y: 180, angle: -15 },
+                      { x: 245, y: 180, angle: 15 },
+
+                      { x: 130, y: 240, angle: -20 },
+                      { x: 200, y: 245, angle: 0 },
+                      { x: 270, y: 240, angle: 20 },
+
+                      { x: 115, y: 310, angle: -25 },
+                      { x: 165, y: 315, angle: -10 },
+                      { x: 235, y: 315, angle: 10 },
+                      { x: 285, y: 310, angle: 25 },
+
+                      { x: 100, y: 380, angle: -30 },
+                      { x: 145, y: 390, angle: -15 },
+                      { x: 200, y: 395, angle: 0 },
+                      { x: 255, y: 390, angle: 15 },
+                      { x: 300, y: 380, angle: 30 },
+
+                      { x: 85, y: 460, angle: -35 },
+                      { x: 130, y: 470, angle: -20 },
+                      { x: 175, y: 480, angle: -10 },
+                      { x: 225, y: 480, angle: 10 },
+                      { x: 270, y: 470, angle: 20 },
+                      { x: 315, y: 460, angle: 35 },
+
+                      { x: 75, y: 550, angle: -40 },
+                      { x: 120, y: 560, angle: -25 },
+                      { x: 175, y: 570, angle: -10 },
+                      { x: 225, y: 570, angle: 10 },
+                      { x: 280, y: 560, angle: 25 },
+                      { x: 325, y: 550, angle: 40 },
+                    ].map((pos, index) => (
+                      <g key={index}>
+                        <g
+                          className="cursor-pointer transition-transform duration-300 hover:scale-125"
+                          onClick={() => handleOrnamentClick(index)}
+                          transform={`rotate(${pos.angle}, ${pos.x}, ${pos.y})`}
+                        >
+                          <line
+                            x1={pos.x}
+                            y1={pos.y - 15}
+                            x2={pos.x}
+                            y2={pos.y}
+                            stroke="#D4AF37"
+                            strokeWidth="2"
+                            opacity="0.8"
+                          />
+
+                          {tracks[index] ? (
+                            <g className="ornament-swing">
+                              <defs>
+                                <radialGradient id={`ornamentGrad-${index}`}>
+                                  <stop offset="0%" stopColor="#FFD700" />
+                                  <stop offset="50%" stopColor="#DAA520" />
+                                  <stop offset="100%" stopColor="#B8860B" />
+                                </radialGradient>
+                                <filter id={`ornamentShadow-${index}`}>
+                                  <feDropShadow dx="0" dy="4" stdDeviation="4" floodOpacity="0.5" />
+                                </filter>
+                              </defs>
+                              <circle
+                                cx={pos.x}
+                                cy={pos.y + 15}
+                                r="18"
+                                fill={`url(#ornamentGrad-${index})`}
+                                stroke="#8B7500"
+                                strokeWidth="2"
+                                filter={`url(#ornamentShadow-${index})`}
+                                className="ornament-sparkle"
+                              />
+                              <circle
+                                cx={pos.x - 5}
+                                cy={pos.y + 10}
+                                r="6"
+                                fill="rgba(255, 255, 255, 0.4)"
+                              />
+                              <g transform={`translate(${pos.x - 7}, ${pos.y + 12})`}>
+                                <path
+                                  d="M 4 2 L 4 10 M 9 0 L 9 10 L 6 13 L 4 10"
+                                  stroke="#4A0E0E"
+                                  strokeWidth="2"
+                                  fill="none"
+                                  strokeLinecap="round"
+                                />
+                              </g>
+                            </g>
+                          ) : (
+                            <g className="opacity-30 hover:opacity-60 transition-opacity">
+                              <circle
+                                cx={pos.x}
+                                cy={pos.y + 15}
+                                r="18"
+                                fill="rgba(212, 175, 55, 0.2)"
+                                stroke="#D4AF37"
+                                strokeWidth="2"
+                                strokeDasharray="4,4"
+                              />
+                              <g transform={`translate(${pos.x - 8}, ${pos.y + 7})`}>
+                                <path
+                                  d="M 8 0 L 8 16 M 0 8 L 16 8"
+                                  stroke="#D4AF37"
+                                  strokeWidth="2.5"
+                                  strokeLinecap="round"
+                                />
+                              </g>
+                            </g>
+                          )}
+                        </g>
+
+                        {tracks[index] && (
+                          <g className="pointer-events-none opacity-0 hover:opacity-100 transition-opacity">
+                            <rect
+                              x={pos.x - 60}
+                              y={pos.y + 40}
+                              width="120"
+                              height="40"
+                              rx="8"
+                              fill="rgba(74, 14, 14, 0.95)"
+                              stroke="#D4AF37"
+                              strokeWidth="2"
+                            />
+                            <text
+                              x={pos.x}
+                              y={pos.y + 65}
+                              textAnchor="middle"
+                              fill="#FFD700"
+                              fontSize="12"
+                              fontWeight="600"
+                            >
+                              {tracks[index]?.name.length > 15
+                                ? tracks[index]?.name.slice(0, 15) + '...'
+                                : tracks[index]?.name}
+                            </text>
+                          </g>
+                        )}
+                      </g>
+                    ))}
+                  </svg>
+                </div>
+              </div>
+
+              <div className="text-center mt-6">
+                <Button
+                  size="lg"
+                  onClick={() => setIsAddDialogOpen(true)}
+                  disabled={isTreeComplete}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl text-lg px-10 py-7 glow-effect border-2 border-primary/50"
+                >
+                  <Icon name="Plus" size={24} className="mr-2" />
+                  Повесить игрушку на ёлку
+                </Button>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        <div className="flex justify-center mb-8">
-          <Button
-            size="lg"
-            onClick={() => setIsAddDialogOpen(true)}
-            className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg text-lg px-8 py-6"
-          >
-            <Icon name="Plus" size={24} className="mr-2" />
-            Добавить трек на ёлку
-          </Button>
-        </div>
-
-        <div className="mb-6 text-center">
-          <div className="inline-block bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-md border-2 border-secondary">
-            <span className="text-lg font-semibold text-primary">
-              Украшено: {filledCount} / 24
-            </span>
           </div>
         </div>
 
-        <div className="relative max-w-4xl mx-auto">
-          <div className="relative">
-            <svg viewBox="0 0 400 500" className="w-full h-auto">
-              <defs>
-                <linearGradient id="treeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: '#0F5132', stopOpacity: 1 }} />
-                  <stop offset="100%" style={{ stopColor: '#1B7A4C', stopOpacity: 1 }} />
-                </linearGradient>
-                <filter id="shadow">
-                  <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.3"/>
-                </filter>
-              </defs>
-
-              <polygon
-                points="200,50 120,180 140,180 90,270 110,270 40,380 360,380 290,270 310,270 260,180 280,180"
-                fill="url(#treeGradient)"
-                stroke="#0A3D23"
-                strokeWidth="3"
-                filter="url(#shadow)"
-              />
-
-              <rect x="170" y="380" width="60" height="80" fill="#654321" stroke="#4A2F15" strokeWidth="3" rx="5" />
-
-              <polygon points="200,20 210,50 190,50" fill="#FFD700" stroke="#DAA520" strokeWidth="2" />
-
-              {[
-                { x: 140, y: 100, color: '#FFD700' },
-                { x: 180, y: 105, color: '#DC143C' },
-                { x: 220, y: 105, color: '#4169E1' },
-                { x: 260, y: 100, color: '#FFD700' },
-
-                { x: 130, y: 140, color: '#DC143C' },
-                { x: 165, y: 145, color: '#4169E1' },
-                { x: 200, y: 148, color: '#FFD700' },
-                { x: 235, y: 145, color: '#DC143C' },
-                { x: 270, y: 140, color: '#4169E1' },
-
-                { x: 115, y: 190, color: '#4169E1' },
-                { x: 155, y: 195, color: '#FFD700' },
-                { x: 200, y: 200, color: '#DC143C' },
-                { x: 245, y: 195, color: '#4169E1' },
-                { x: 285, y: 190, color: '#FFD700' },
-
-                { x: 100, y: 230, color: '#DC143C' },
-                { x: 140, y: 240, color: '#4169E1' },
-                { x: 180, y: 245, color: '#FFD700' },
-                { x: 220, y: 245, color: '#DC143C' },
-                { x: 260, y: 240, color: '#4169E1' },
-                { x: 300, y: 230, color: '#FFD700' },
-
-                { x: 80, y: 290, color: '#FFD700' },
-                { x: 125, y: 300, color: '#DC143C' },
-                { x: 165, y: 310, color: '#4169E1' },
-                { x: 200, y: 315, color: '#FFD700' },
-                { x: 235, y: 310, color: '#DC143C' },
-                { x: 275, y: 300, color: '#4169E1' },
-                { x: 320, y: 290, color: '#DC143C' },
-              ].map((light, i) => (
-                <circle
-                  key={`light-${i}`}
-                  cx={light.x}
-                  cy={light.y}
-                  r="3"
-                  fill={light.color}
-                  className="ornament-sparkle"
-                  opacity="0.8"
-                />
-              ))}
-
-              {[
-                { x: 155, y: 115, rx: 200 },
-                { x: 245, y: 115, rx: 160 },
-                
-                { x: 147, y: 160, rx: 240 },
-                { x: 217, y: 165, rx: 200 },
-                { x: 253, y: 160, rx: 180 },
-
-                { x: 127, y: 210, rx: 280 },
-                { x: 177, y: 215, rx: 240 },
-                { x: 223, y: 215, rx: 200 },
-                { x: 273, y: 210, rx: 160 },
-
-                { x: 110, y: 255, rx: 320 },
-                { x: 158, y: 265, rx: 280 },
-                { x: 200, y: 270, rx: 240 },
-                { x: 242, y: 265, rx: 200 },
-                { x: 290, y: 255, rx: 140 },
-
-                { x: 97, y: 320, rx: 360 },
-                { x: 143, y: 330, rx: 320 },
-                { x: 182, y: 340, rx: 280 },
-                { x: 218, y: 340, rx: 240 },
-                { x: 257, y: 330, rx: 200 },
-                { x: 303, y: 320, rx: 140 },
-              ].map((hook, index) => (
-                <g key={index}>
-                  <line
-                    x1={hook.x}
-                    y1={hook.y - 8}
-                    x2={hook.x}
-                    y2={hook.y}
-                    stroke="#8B4513"
-                    strokeWidth="1.5"
-                  />
-                  
-                  {tracks[index] ? (
-                    <g className="ornament-swing cursor-pointer" onClick={() => handleOrnamentClick(index)}>
-                      <circle
-                        cx={hook.x}
-                        cy={hook.y + 10}
-                        r="12"
-                        fill="#DC143C"
-                        stroke="#8B0000"
-                        strokeWidth="2"
-                        filter="url(#shadow)"
-                        className="transition-all duration-300 hover:r-14"
-                      />
-                      <circle
-                        cx={hook.x}
-                        cy={hook.y + 6}
-                        r="4"
-                        fill="#FF6B6B"
-                        opacity="0.6"
-                      />
-                      <g transform={`translate(${hook.x - 6}, ${hook.y + 6})`}>
-                        <path d="M 4 4 L 4 10 M 8 2 L 8 10 L 6 12 L 4 10" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-                      </g>
-                    </g>
-                  ) : (
-                    <g className="cursor-pointer opacity-40 hover:opacity-70 transition-opacity" onClick={() => handleOrnamentClick(index)}>
-                      <circle
-                        cx={hook.x}
-                        cy={hook.y + 10}
-                        r="12"
-                        fill="#F0F0F0"
-                        stroke="#D0D0D0"
-                        strokeWidth="2"
-                        strokeDasharray="2,2"
-                      />
-                      <g transform={`translate(${hook.x - 5}, ${hook.y + 5})`}>
-                        <path d="M 5 0 L 5 10 M 0 5 L 10 5" stroke="#999" strokeWidth="2" strokeLinecap="round"/>
-                      </g>
-                    </g>
-                  )}
-                </g>
-              ))}
-            </svg>
-          </div>
-        </div>
+        {filledCount > 0 && (
+          <Card className="bg-card/80 backdrop-blur-md border-2 border-primary/30 shadow-2xl">
+            <CardContent className="pt-6">
+              <h3 className="text-2xl font-bold text-primary mb-4 flex items-center gap-2">
+                <Icon name="Music" size={28} className="glow-effect" />
+                Добавленные треки
+              </h3>
+              <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2">
+                {tracks
+                  .filter((t) => t !== null)
+                  .map((track, i) => (
+                    <div
+                      key={track?.id}
+                      className="bg-muted/50 rounded-lg p-4 border border-primary/20 hover:border-primary/50 transition-all cursor-pointer"
+                      onClick={() => {
+                        setSelectedTrack(track);
+                        setIsViewDialogOpen(true);
+                      }}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold text-sm">
+                          {i + 1}
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-foreground mb-1">{track?.name}</h4>
+                          <p className="text-sm text-muted-foreground line-clamp-2">{track?.reason}</p>
+                        </div>
+                        <Icon name="ChevronRight" size={20} className="text-primary flex-shrink-0" />
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-lg bg-card border-2 border-primary/30">
           <DialogHeader>
-            <DialogTitle className="text-2xl flex items-center gap-2">
-              <Icon name="Music" size={24} className="text-accent" />
-              Добавить трек
+            <DialogTitle className="text-3xl flex items-center gap-3 text-primary">
+              <Icon name="Music" size={32} className="glow-effect" />
+              Добавить музыкальную игрушку
             </DialogTitle>
-            <DialogDescription>
-              Поделитесь своим любимым новогодним треком и расскажите почему он особенный
+            <DialogDescription className="text-base">
+              Поделитесь своим любимым новогодним треком и расскажите, почему он для вас особенный
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 mt-4">
+          <div className="space-y-5 mt-4">
             <div>
-              <Label htmlFor="trackName">Название трека</Label>
+              <Label htmlFor="trackName" className="text-base">
+                Название трека
+              </Label>
               <Input
                 id="trackName"
-                placeholder="Например: Jingle Bells"
+                placeholder="Например: Jingle Bells — Frank Sinatra"
                 value={trackName}
                 onChange={(e) => setTrackName(e.target.value)}
-                className="mt-1.5"
+                maxLength={100}
+                className="mt-2 bg-input border-primary/30"
               />
+              <div className="text-xs text-muted-foreground mt-1">{trackName.length} / 100</div>
             </div>
             <div>
-              <Label htmlFor="trackReason">
-                Почему именно этот трек? <span className="text-muted-foreground text-xs">(минимум 20 символов)</span>
+              <Label htmlFor="trackReason" className="text-base">
+                Почему этот трек для вас особенный?
+                <span className="text-muted-foreground text-sm ml-2">(20-300 символов)</span>
               </Label>
               <Textarea
                 id="trackReason"
                 placeholder="Расскажите свою историю..."
                 value={trackReason}
                 onChange={(e) => setTrackReason(e.target.value)}
-                className="mt-1.5 min-h-[120px]"
+                maxLength={300}
+                className="mt-2 min-h-[140px] bg-input border-primary/30"
               />
-              <div className="text-xs text-muted-foreground mt-1">
-                {trackReason.length} / 20 символов
-              </div>
+              <div className="text-xs text-muted-foreground mt-1">{trackReason.length} / 300 символов</div>
             </div>
-            <Button onClick={handleAddTrack} className="w-full bg-accent hover:bg-accent/90" size="lg">
-              <Icon name="Plus" size={20} className="mr-2" />
-              Добавить на ёлку
+            <Button
+              onClick={handleAddTrack}
+              className="w-full bg-primary hover:bg-primary/90 border-2 border-primary/50 glow-effect"
+              size="lg"
+            >
+              <Icon name="Sparkles" size={20} className="mr-2" />
+              Повесить на ёлку
             </Button>
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-lg bg-card border-2 border-primary/30">
           <DialogHeader>
-            <DialogTitle className="text-2xl flex items-center gap-2">
-              <Icon name="Music" size={24} className="text-accent" />
+            <DialogTitle className="text-2xl flex items-center gap-3 text-primary">
+              <Icon name="Music" size={28} className="glow-effect" />
               {selectedTrack?.name}
             </DialogTitle>
           </DialogHeader>
-          <div className="mt-4">
-            <Label className="text-base font-semibold">История:</Label>
-            <p className="mt-2 text-muted-foreground leading-relaxed">{selectedTrack?.reason}</p>
+          <div className="mt-4 space-y-3">
+            <div>
+              <Label className="text-base font-semibold text-primary">История трека:</Label>
+              <div className="mt-2 p-4 bg-muted/50 rounded-lg border border-primary/20">
+                <p className="text-foreground/90 leading-relaxed">{selectedTrack?.reason}</p>
+              </div>
+            </div>
           </div>
         </DialogContent>
       </Dialog>

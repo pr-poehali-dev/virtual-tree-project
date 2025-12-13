@@ -6,33 +6,33 @@
 
 @layer base {
   :root {
-    --background: 140 30% 97%;
-    --foreground: 140 80% 10%;
+    --background: 0 40% 12%;
+    --foreground: 45 100% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 140 80% 10%;
+    --card: 0 30% 18%;
+    --card-foreground: 45 100% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 140 80% 10%;
+    --popover: 0 30% 15%;
+    --popover-foreground: 45 100% 95%;
 
-    --primary: 140 70% 25%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 45 100% 60%;
+    --primary-foreground: 0 40% 12%;
 
-    --secondary: 45 100% 50%;
-    --secondary-foreground: 140 80% 10%;
+    --secondary: 0 50% 35%;
+    --secondary-foreground: 45 100% 95%;
 
-    --muted: 140 30% 90%;
-    --muted-foreground: 140 30% 40%;
+    --muted: 0 20% 25%;
+    --muted-foreground: 45 30% 70%;
 
-    --accent: 0 80% 55%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 0 75% 50%;
+    --accent-foreground: 45 100% 95%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 45 100% 95%;
 
-    --border: 140 30% 85%;
-    --input: 140 30% 85%;
-    --ring: 140 70% 25%;
+    --border: 0 20% 30%;
+    --input: 0 30% 20%;
+    --ring: 45 100% 60%;
 
     --radius: 0.75rem;
 
@@ -128,10 +128,51 @@
   }
 }
 
+@keyframes snowfall {
+  0% {
+    transform: translateY(-10px) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+  }
+}
+
 .ornament-sparkle {
   animation: sparkle 2s ease-in-out infinite;
 }
 
 .ornament-swing {
   animation: swing 3s ease-in-out infinite;
+}
+
+.snowflake {
+  position: fixed;
+  top: -10px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1em;
+  pointer-events: none;
+  z-index: 1000;
+  animation: snowfall linear infinite;
+}
+
+.glow-effect {
+  animation: glow 3s ease-in-out infinite;
 }
