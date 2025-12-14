@@ -412,7 +412,7 @@ const Index = () => {
                   className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-2xl text-lg px-10 py-7 glow-effect border-2 border-primary/50"
                 >
                   <Icon name="Plus" size={24} className="mr-2" />
-                  Повесить игрушку на ёлку
+                  Повесить игрушку
                 </Button>
               </div>
             </div>
@@ -541,7 +541,7 @@ const Index = () => {
 
               <div className="text-center mt-6">
                 <p className="text-xl font-semibold text-primary">
-                  👉 Жмите «Добавить игрушку» и делитесь своим музыкальным настроением!
+                  👉 Жмите «Повесить игрушку» и делитесь своим музыкальным настроением!
                 </p>
               </div>
             </div>
