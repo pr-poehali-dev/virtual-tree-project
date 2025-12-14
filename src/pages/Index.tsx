@@ -198,99 +198,6 @@ const Index = () => {
           </div>
         </header>
 
-        <Card className="bg-card/90 backdrop-blur-md border-2 border-primary/40 shadow-2xl mb-8 animate-fade-in">
-          <CardContent className="pt-8 pb-8">
-            <div className="prose prose-lg max-w-none text-foreground space-y-4">
-              <h2 className="text-3xl font-bold text-center text-primary mb-6" style={{ fontFamily: 'Georgia, serif' }}>
-                🎄 Дорогие друзья! 🎄
-              </h2>
-              
-              <p className="text-center text-lg leading-relaxed">
-                Приглашаем вас стать частью музыкального проекта — создайте свою уникальную историю на нашей виртуальной ёлке! ✨
-              </p>
-
-              <div className="bg-primary/10 rounded-lg p-6 border border-primary/30 mt-6">
-                <p className="font-semibold text-primary mb-3">Этот сайт создан специально для того, чтобы вы могли:</p>
-                <ul className="space-y-2 list-none">
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span>поделиться любимой песней — любой, которая дорога вашему сердцу;</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span>рассказать, почему именно она для вас особенная;</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">•</span>
-                    <span>внести свой вклад в создание общего музыкального плейлиста.</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="mt-6">
-                <h3 className="text-xl font-bold text-primary mb-3">🎼 Как это работает:</h3>
-                <ol className="space-y-3 list-none">
-                  <li className="flex items-start gap-3">
-                    <span className="bg-primary text-primary-foreground rounded-full w-7 h-7 flex items-center justify-center flex-shrink-0 font-bold text-sm">1</span>
-                    <span>Выберите место на виртуальной ёлке, куда хотите «повесить» свою музыкальную игрушку.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="bg-primary text-primary-foreground rounded-full w-7 h-7 flex items-center justify-center flex-shrink-0 font-bold text-sm">2</span>
-                    <div>
-                      <span>Заполните две строчки:</span>
-                      <ul className="ml-6 mt-2 space-y-1 list-disc">
-                        <li>название трека и исполнителя;</li>
-                        <li>небольшой рассказ (от 20 символов) о том, почему эта песня для вас важна.</li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="bg-primary text-primary-foreground rounded-full w-7 h-7 flex items-center justify-center flex-shrink-0 font-bold text-sm">3</span>
-                    <span>Нажмите кнопку «Повесить на ёлку» — и ваша игрушка займёт своё место!</span>
-                  </li>
-                </ol>
-              </div>
-
-              <div className="bg-primary/10 rounded-lg p-6 border border-primary/30 mt-6">
-                <h3 className="text-xl font-bold text-primary mb-3">🌟 Что будет дальше:</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">✓</span>
-                    <span>Все треки и истории будут видны каждому посетителю сайта — можно читать и вдохновляться!</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">✓</span>
-                    <span>Ёлка постепенно наполнится вашими музыкальными сокровищами.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-primary mt-1">✓</span>
-                    <span><strong>1 января 2026 года</strong> я соберу все треки в единый плейлист — наш общий музыкальный альбом! 🎧</span>
-                  </li>
-                </ul>
-              </div>
-
-              <p className="text-center text-lg mt-6 text-muted-foreground">
-                ⏳ На сайте вы также увидите обратный отсчёт до 1 января — успевайте добавить свою игрушку, пока на ёлке есть свободные места!
-              </p>
-
-              <div className="text-center mt-8 p-6 bg-gradient-to-r from-primary/20 via-primary/30 to-primary/20 rounded-xl border-2 border-primary/50">
-                <p className="text-xl font-bold text-primary mb-2">
-                  Давайте вместе создадим неповторимую музыкальную коллекцию! 🎶
-                </p>
-                <p className="text-lg">
-                  Ваша песня может стать частью нашей общей истории. ✨
-                </p>
-              </div>
-
-              <div className="text-center mt-6">
-                <p className="text-xl font-semibold text-primary">
-                  👉 Жмите «Добавить игрушку» и делитесь своим музыкальным настроением!
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           <div className="md:col-span-1">
             <Card className="bg-card/80 backdrop-blur-md border-2 border-primary/30 shadow-2xl">
@@ -513,7 +420,7 @@ const Index = () => {
         </div>
 
         {filledCount > 0 && (
-          <Card className="bg-card/80 backdrop-blur-md border-2 border-primary/30 shadow-2xl">
+          <Card className="bg-card/80 backdrop-blur-md border-2 border-primary/30 shadow-2xl mb-8">
             <CardContent className="pt-6">
               <h3 className="text-2xl font-bold text-primary mb-4 flex items-center gap-2">
                 <Icon name="Music" size={28} className="glow-effect" />
@@ -547,6 +454,99 @@ const Index = () => {
             </CardContent>
           </Card>
         )}
+
+        <Card className="bg-card/90 backdrop-blur-md border-2 border-primary/40 shadow-2xl mb-8">
+          <CardContent className="pt-8 pb-8">
+            <div className="prose prose-lg max-w-none text-foreground space-y-4">
+              <h2 className="text-3xl font-bold text-center text-primary mb-6" style={{ fontFamily: 'Georgia, serif' }}>
+                🎄 Дорогие друзья! 🎄
+              </h2>
+              
+              <p className="text-center text-lg leading-relaxed">
+                Приглашаем вас стать частью музыкального проекта — создайте свою уникальную историю на нашей виртуальной ёлке! ✨
+              </p>
+
+              <div className="bg-primary/10 rounded-lg p-6 border border-primary/30 mt-6">
+                <p className="font-semibold text-primary mb-3">Этот сайт создан специально для того, чтобы вы могли:</p>
+                <ul className="space-y-2 list-none">
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-1">•</span>
+                    <span>поделиться любимой песней — любой, которая дорога вашему сердцу;</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-1">•</span>
+                    <span>рассказать, почему именно она для вас особенная;</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-1">•</span>
+                    <span>внести свой вклад в создание общего музыкального плейлиста.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-6">
+                <h3 className="text-xl font-bold text-primary mb-3">🎼 Как это работает:</h3>
+                <ol className="space-y-3 list-none">
+                  <li className="flex items-start gap-3">
+                    <span className="bg-primary text-primary-foreground rounded-full w-7 h-7 flex items-center justify-center flex-shrink-0 font-bold text-sm">1</span>
+                    <span>Выберите место на виртуальной ёлке, куда хотите «повесить» свою музыкальную игрушку.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="bg-primary text-primary-foreground rounded-full w-7 h-7 flex items-center justify-center flex-shrink-0 font-bold text-sm">2</span>
+                    <div>
+                      <span>Заполните две строчки:</span>
+                      <ul className="ml-6 mt-2 space-y-1 list-disc">
+                        <li>название трека и исполнителя;</li>
+                        <li>небольшой рассказ (от 20 символов) о том, почему эта песня для вас важна.</li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="bg-primary text-primary-foreground rounded-full w-7 h-7 flex items-center justify-center flex-shrink-0 font-bold text-sm">3</span>
+                    <span>Нажмите кнопку «Повесить на ёлку» — и ваша игрушка займёт своё место!</span>
+                  </li>
+                </ol>
+              </div>
+
+              <div className="bg-primary/10 rounded-lg p-6 border border-primary/30 mt-6">
+                <h3 className="text-xl font-bold text-primary mb-3">🌟 Что будет дальше:</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-1">✓</span>
+                    <span>Все треки и истории будут видны каждому посетителю сайта — можно читать и вдохновляться!</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-1">✓</span>
+                    <span>Ёлка постепенно наполнится вашими музыкальными сокровищами.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary mt-1">✓</span>
+                    <span><strong>1 января 2026 года</strong> я соберу все треки в единый плейлист — наш общий музыкальный альбом! 🎧</span>
+                  </li>
+                </ul>
+              </div>
+
+              <p className="text-center text-lg mt-6 text-muted-foreground">
+                ⏳ На сайте вы также увидите обратный отсчёт до 1 января — успевайте добавить свою игрушку, пока на ёлке есть свободные места!
+              </p>
+
+              <div className="text-center mt-8 p-6 bg-gradient-to-r from-primary/20 via-primary/30 to-primary/20 rounded-xl border-2 border-primary/50">
+                <p className="text-xl font-bold text-primary mb-2">
+                  Давайте вместе создадим неповторимую музыкальную коллекцию! 🎶
+                </p>
+                <p className="text-lg">
+                  Ваша песня может стать частью нашей общей истории. ✨
+                </p>
+              </div>
+
+              <div className="text-center mt-6">
+                <p className="text-xl font-semibold text-primary">
+                  👉 Жмите «Добавить игрушку» и делитесь своим музыкальным настроением!
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
